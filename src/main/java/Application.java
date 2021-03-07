@@ -1,4 +1,4 @@
-package model;
+import model.Kotik;
 
 public class Application {
     public static void compareMeow(String firstMeow, String secondMeow) {

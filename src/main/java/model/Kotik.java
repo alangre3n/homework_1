@@ -39,26 +39,31 @@ public class Kotik {
         }
     }
 
-    public void defecate() {
+    public boolean defecate() {
         checkHunger(this.name + " defecates", 0);
+        return true;
     }
 
-    public void goOut() {
+    public boolean goOut() {
         checkHunger(this.name + " is walking", 2);
+        return true;
     }
 
-    public void play() {
+    public boolean play() {
         checkHunger(this.name + " is playing", 1);
+        return true;
     }
 
-    public void sleep() {
+    public boolean sleep() {
         checkHunger(this.name + " is sleeping", 2);
+        return true;
     }
 
-    public void chaseMouse() {
+    public boolean chaseMouse() {
         String[] res = {"gotcha", "the mouse ran away"};
         Random random = new Random();
         checkHunger("Chases mouse..." + res[random.nextInt(res.length)], 2);
+        return true;
     }
 
     public void eat(int satietyCount) {
