@@ -19,6 +19,10 @@ public class Kotik {
         instanceCount++;
     }
 
+    public Kotik() {
+        instanceCount++;
+    }
+
     public void setKotik(int prettiness, String name, int weight, String meow) {
         this.prettiness = prettiness;
         this.name = name;
@@ -26,66 +30,86 @@ public class Kotik {
         this.meow = meow;
     }
 
-    public Kotik() {
-        instanceCount++;
-    }
-
-    private boolean checkHunger(String message, int satiety) {
+    private void checkHunger(String message, int satiety) {
         if (this.satiety <= 0) {
-            System.out.println("Котейка отказывается выполнять действие, он хочет кушать, покорми его");
-            return true;
+            System.out.println(this.name + " wants to eat, feed him");
         } else {
             System.out.println(message);
             this.satiety -= satiety;
-            return false;
         }
     }
 
     public void defecate() {
-        checkHunger("Котейка справил нужду", 0);
+        checkHunger(this.name + " defecates", 0);
     }
 
     public void goOut() {
-        checkHunger("Котейка погулял", 2);
+        checkHunger(this.name + " is walking", 2);
     }
 
     public void play() {
-        checkHunger("Котейка поиграл", 1);
+        checkHunger(this.name + " is playing", 1);
     }
 
     public void sleep() {
-        checkHunger("Котейка поспал", 2);
+        checkHunger(this.name + " is sleeping", 2);
     }
 
     public void chaseMouse() {
-        if (!checkHunger("Котейка погнался за мышкой и....", 2)) {
-            String[] res = {"поймал ее", "мышке удалось удрать"};
-            Random random = new Random();
-            System.out.println(res[random.nextInt(res.length)]);
-        }
+        String[] res = {"gotcha", "the mouse ran away"};
+        Random random = new Random();
+        checkHunger("Chases mouse..." + res[random.nextInt(res.length)], 2);
     }
 
     public void eat(int satietyCount) {
-        System.out.println("Котейка покушал");
+        System.out.println(this.name + " is eating");
         this.satiety += satietyCount;
     }
 
     public void eat(String food, int satietyCount) {
-        System.out.println("Котейка покушал " + food);
+        System.out.println(this.name + " is eating " + food);
         this.satiety += satietyCount;
     }
 
     public void eat() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Чем будем кормить котейку?");
+        System.out.println("what to feed the " + this.name + "?");
         String food = in.nextLine();
-        System.out.println("Сколько еды будем давать?");
+        System.out.println("How much food?");
         int foodCount = in.nextInt();
         eat(food, foodCount);
         in.close();
     }
 
     public void liveAnotherDay() {
+        int pick;
+        Event current;
+
+        for (int i = 0; i < 24; i++) {
+            pick = new Random().nextInt(Event.values().length);
+            current = Event.values()[pick];
+            if (satiety < 1) {
+                eat(3);
+            } else {
+                switch (current) {
+                    case DEFECATE:
+                        defecate();
+                        break;
+                    case GOOUT:
+                        goOut();
+                        break;
+                    case PLAY:
+                        play();
+                        break;
+                    case SLEEP:
+                        sleep();
+                        break;
+                    case CHASEMOUSE:
+                        chaseMouse();
+                        break;
+                }
+            }
+        }
     }
 
     public int getPrettiness() {
@@ -109,6 +133,6 @@ public class Kotik {
     }
 
     public static void InstanceCount() {
-        System.out.println(instanceCount);
+        System.out.println("Number of objects = " + instanceCount);
     }
 }
